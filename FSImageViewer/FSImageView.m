@@ -214,6 +214,11 @@
 }
 
 - (void)prepareForReuse {
+    self.imageView.image = self.image.image;
+    if (self.image.image == nil) {
+        [_progressView setProgress:0.0];
+        _progressView.hidden = NO;
+    }
     self.tag = -1;
 }
 

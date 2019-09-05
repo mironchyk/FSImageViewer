@@ -107,6 +107,7 @@
         NSURLRequest *urlRequest = [[NSURLRequest alloc] initWithURL:aURL cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:_timeoutInterval];
         AFHTTPRequestOperation *imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
         imageRequestOperation.responseSerializer = [AFImageResponseSerializer serializer];
+        imageRequestOperation.responseSerializer.acceptableContentTypes = [imageRequestOperation.responseSerializer.acceptableContentTypes setByAddingObject:@"application/force-download"];
         [runningRequests addObject:imageRequestOperation];
         __weak AFHTTPRequestOperation *imageRequestOperationForBlock = imageRequestOperation;
 
@@ -119,7 +120,8 @@
             [runningRequests removeObject:imageRequestOperationForBlock];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             if (imageBlock) {
-                imageBlock(nil, error);
+                if (!operation.isCancelled)
+                    imageBlock(nil, error);
             }
             [runningRequests removeObject:imageRequestOperationForBlock];
         }];
