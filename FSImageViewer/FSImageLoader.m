@@ -107,7 +107,7 @@
         NSURLRequest *urlRequest = [[NSURLRequest alloc] initWithURL:aURL cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:_timeoutInterval];
         AFHTTPRequestOperation *imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
         imageRequestOperation.responseSerializer = [AFImageResponseSerializer serializer];
-        imageRequestOperation.responseSerializer.acceptableContentTypes = [imageRequestOperation.responseSerializer.acceptableContentTypes setByAddingObject:@"application/force-download"];
+        imageRequestOperation.responseSerializer.acceptableContentTypes = [imageRequestOperation.responseSerializer.acceptableContentTypes setByAddingObjectsFromArray:@[@"application/force-download",@"application/octet-stream"]];
         [runningRequests addObject:imageRequestOperation];
         __weak AFHTTPRequestOperation *imageRequestOperationForBlock = imageRequestOperation;
 
